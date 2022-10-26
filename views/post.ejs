@@ -27,7 +27,7 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <p> <%=post.detail %> </p>
-          <span class="caption text-muted"> <%=post.dateCreated %> </span>
+          <span class="caption text-muted"> <%=String(post.dateCreated).slice(0,21) %> </span>
 
         </div>
       </div>
