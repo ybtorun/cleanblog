@@ -26,12 +26,20 @@ app.use(express.json());
 app.set('view engine', 'ejs'); //express template engine olarak ejs kullanacağız diyoruz.
 
 //ROUTES
-app.get('/', async (req, res) => {
+app.get('/', async (req, res) => { //mongodb de ki tüm postları index sayfasında listeleme
   const posts = await Post.find({})
   res.render('index', {
     posts
   });
 });
+
+app.get('/posts/:id', async (req, res) => { //her post için tekil sayfa oluşturma
+  const post = await Post.findById(req.params.id);
+  res.render('post', {
+    post,
+  });
+});
+
 
 
 app.get('/about', (req, res) => {
@@ -43,15 +51,12 @@ app.get('/add_post', (req, res) => {
   res.render('add_post');
 });
 
-app.get('/post', (req, res) => {
-  res.render('post');
-});
-
-app.post('/posts', async (req, res) => {
+app.post('/posts', async (req, res) => { //add post to mongo db
   console.log(req.body);
   await Post.create(req.body);
   res.redirect('/');
 });
+
 
 
 
