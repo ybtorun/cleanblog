@@ -38,7 +38,8 @@
               <%= posts[i].detail %>
             </h3>
           </a>
-          <p class="post-meta">Posted             
+          <p class="post-meta">Posted   
+            <%= posts[i].author %>      
             <%= String(posts[i].dateCreated).slice(0,21) %></p>
         </div>
         <hr>

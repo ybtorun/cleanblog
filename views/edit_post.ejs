@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="page-heading">
-            <h1>Add New Post</h1>
+            <h1>Edit Post</h1>
 
           </div>
         </div>
@@ -25,24 +25,25 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <form method="POST" action="/posts">
+        <form method="POST" action="/posts/<%=post._id%>?_method=PUT" novalidate>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Post Title</label>
-              <input type="text" name="title" class="form-control" placeholder="Name"  required>
+              <input type="text" name="title" value="<%=post.title %>" class="form-control" placeholder=" Post Title"  required>
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Post Detail</label>
-              <textarea rows="5" name="detail"  class="form-control" placeholder="Message"  required></textarea>
+              <textarea rows="5" name="detail" class="form-control" placeholder="Message"  required><%=post.detail %></textarea>
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <br>
-          <div id="success"></div>
-          <button type="submit" class="btn btn-primary">Send</button>
+          <div id="success">
+           <button type="submit" class="btn btn-primary" id="sendMessageButton">Update</button>
+          </div>
         </form>
       </div>
     </div>

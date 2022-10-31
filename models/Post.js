@@ -9,6 +9,10 @@ const PostSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  author: {
+    type: String,
+    default : 'Ybtorun',
+  },
 });
 
 //create model

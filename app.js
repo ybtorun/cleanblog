@@ -1,6 +1,7 @@
 //3. party modules
 const express = require('express');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 
 //core modules
 const ejs = require('ejs');
@@ -8,8 +9,12 @@ const path = require('path');
 
 //modules created by us
 const Post = require('./models/Post');
+const pageControllers = require('./controllers/pageControllers');
+const postControllers = require('./controllers/postControllers');
 
 const app = express();
+
+app.set('view engine', 'ejs'); //express template engine olarak ejs kullanacağız diyoruz.
 
 //connect db
 mongoose.connect('mongodb://127.0.0.1:27017/cleanblog-test-db', {
@@ -21,58 +26,24 @@ mongoose.connect('mongodb://127.0.0.1:27017/cleanblog-test-db', {
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride('_method' , {
+  methods:['POST', 'GET'] //hangi methodların gerektiğinde override yapılmasını belirttik. html PUT VE DELETE requesti bu methodları override yaparak kullanıyor.
+})); 
 
-
-app.set('view engine', 'ejs'); //express template engine olarak ejs kullanacağız diyoruz.
 
 //ROUTES
-app.get('/', async (req, res) => { //mongodb de ki tüm postları index sayfasında listeleme
-  const posts = await Post.find({})
-  res.render('index', {
-    posts
-  });
-});
+app.get('/about', pageControllers.getAboutPage);//about sayfası 
+app.get('/add_post', pageControllers.getAddpostPage); //add_post sayfası
+app.get('/posts/edit/:id',pageControllers.getEditPage); //edit page yönlendirme
 
-app.get('/posts/:id', async (req, res) => { //her post için tekil sayfa oluşturma
-  const post = await Post.findById(req.params.id);
-  res.render('post', {
-    post,
-  });
-});
-
-
-
-app.get('/about', (req, res) => {
-  res.render('about');
-});
-
-app.get('/add_post', (req, res) => {
-  console.log(req.body);
-  res.render('add_post');
-});
-
-app.post('/posts', async (req, res) => { //add post to mongo db
-  console.log(req.body);
-  await Post.create(req.body);
-  res.redirect('/');
-});
-
-
+app.get('/',postControllers.getAllPosts); //list all posts
+app.get('/posts/:id', postControllers.getPost);// get a post
+app.post('/posts', postControllers.createPost ); //create a post mongodb
+app.delete('/posts/:id', postControllers.deletePost); //delete a post
+app.put('/posts/:id', postControllers.updatePost);//update post
 
 
 const port = 3000;
 app.listen(port, () => {
   console.log(`Sunucu ${port} portunda başlatıldı. `);
 });
-
-
-
-//1. homework
-// app.get('/', (req, res) => {
-//   const blog = { id: 1, title: 'Blog title', description: 'Blog description' };
-//   res.send(blog);
-// });
-
-// app.get('/', (req, res) => {
-//   res.sendFile(path.resolve(__dirname,'temp/index.html'));
-// });
