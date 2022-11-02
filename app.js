@@ -18,7 +18,7 @@ const app = express();
 app.set('view engine', 'ejs'); //express template engine olarak ejs kullanacağız diyoruz.
 
 //connect db
-mongoose.connect(`mongodb+srv://yusuf:UIRa0GalkNUE3eqK@cluster0.1ziix19.mongodb.net/?retryWrites=true&w=majority`,{//'mongodb://127.0.0.1:27017/cleanblog-test-db', {
+mongoose.connect(`mongodb+srv://${config.USER_ID}:${config.USER_KEY}@cluster0.1ziix19.mongodb.net/?retryWrites=true&w=majority`,{//'mongodb://127.0.0.1:27017/cleanblog-test-db', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
