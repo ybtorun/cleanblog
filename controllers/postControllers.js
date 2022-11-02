@@ -22,6 +22,16 @@ exports.createPost = async (req, res) => {
     res.redirect('/');
   };
 
+  //update post
+exports.updatePost = async (req,res) => {
+  const post = await Post.findOne({ _id: req.params.id });
+  post.title = req.body.title;
+  post.detail = req.body.detail;
+  post.save();
+  res.redirect(`/posts/${req.params.id}`);
+
+};
+
 //delete post
 exports.deletePost = async (req,res) => {
     await Post.findByIdAndRemove(req.params.id);
@@ -29,12 +39,4 @@ exports.deletePost = async (req,res) => {
   
   };
 
-//update post
-exports.updatePost = async (req,res) => {
-    const post = await Post.findOne({ _id: req.params.id });
-    post.title = req.body.title;
-    post.detail = req.body.detail;
-    post.save();
-    res.redirect(`/posts/${req.params.id}`);
-  
-  };
+
